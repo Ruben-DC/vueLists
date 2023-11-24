@@ -31,7 +31,7 @@ const nbItems = ref(4);
             </div>
         </header>
 
-        <ul class="list__items" ref="listItems">
+        <ul class="list__items hide" ref="listItems">
             <slot name="items">
                 <ListItem></ListItem>
                 <ListItem></ListItem>
