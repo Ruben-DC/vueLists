@@ -1,27 +1,27 @@
 <script setup>
-import List from '../components/ListComponent.vue';
-import ListModal from '../components/modal/ListModal.vue';
+import List from '@/components/ListComponent.vue';
+import ListModal from '@/components/modal/AddListModal.vue';
 </script>
 
 <template>
-    <main class="view">
-        <ListModal />
-        <List name="Première liste">
-            <template #items> </template>
-        </List>
-    </main>
+	<main class="view">
+		<ListModal />
+		<List name="Première liste">
+			<template #items> </template>
+		</List>
+	</main>
 </template>
 
 <style lang="scss" scoped>
 .view {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 30px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 30px;
 
-    max-width: 800px;
-    width: 100%;
+	max-width: 800px;
+	width: 100%;
 
-    padding: 0 20px;
+	padding: 0 20px;
 }
 </style>
