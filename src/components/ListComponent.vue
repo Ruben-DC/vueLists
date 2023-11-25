@@ -2,6 +2,10 @@
 import ListItem from './ListItem.vue';
 import AddItemModal from './modal/AddItemModal.vue';
 import { ref } from 'vue';
+// import { useListsStore } from '../stores/listStore';
+
+// const listsStore = useListsStore();
+
 const props = defineProps({
 	name: String
 });

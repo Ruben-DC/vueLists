@@ -1,15 +1,32 @@
 <script setup>
 import Modal from './ModalComponent.vue';
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
+import { useListsStore } from '@/stores/listStore';
+
+const listsStore = useListsStore();
+
+const listName = ref('');
 
 const modalInstance = ref(null);
 const handleCancel = () => {
 	modalInstance.value.closeModal();
+	listName.value = '';
 };
 
 const handleSubmit = () => {
 	modalInstance.value.closeModal();
+	listsStore.addList({ name: listName.value });
+	listName.value = '';
 };
+
+const listNameInput = ref(null);
+const focusInput = () => listNameInput.value.focus();
+
+watchEffect(() => {
+	if (modalInstance.value.isModalOpen.value) {
+		modalInstance.value.isModalOpen.value ? focusInput() : null;
+	}
+});
 </script>
 
 <template>
@@ -24,7 +41,14 @@ const handleSubmit = () => {
 
 		<template #content>
 			<label for="list-name">Nom de la liste</label>
-			<input class="modal__input" id="list-name" type="text" placeholder="Nom de la liste" />
+			<input
+				class="modal__input"
+				id="list-name"
+				type="text"
+				placeholder="Nom de la liste"
+				v-model="listName"
+				ref="listNameInput"
+			/>
 		</template>
 
 		<template #actions>

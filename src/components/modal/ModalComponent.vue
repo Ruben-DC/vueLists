@@ -8,7 +8,7 @@ const modal = ref(null);
 
 const openModal = () => (isModalOpen.value = true);
 const closeModal = () => (isModalOpen.value = false);
-defineExpose({ openModal, closeModal });
+defineExpose({ openModal, closeModal, isModalOpen });
 
 onClickOutside(modal, () => closeModal());
 </script>
@@ -19,7 +19,7 @@ onClickOutside(modal, () => closeModal());
 	<Teleport to="#modals">
 		<Transition name="modal">
 			<div class="modal__background" v-if="isModalOpen">
-				<div ref="modal" class="modal__wrapper">
+				<div ref="modal" class="modal__wrapper" @keydown.escape="closeModal">
 					<header class="modal__header">
 						<h2 class="modal__title">
 							<slot name="title">Titre de la modale</slot>
