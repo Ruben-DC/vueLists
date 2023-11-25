@@ -1,114 +1,115 @@
 <script setup>
 import ListItem from './ListItem.vue';
+import AddItemModal from './modal/AddItemModal.vue';
 import { ref } from 'vue';
 const props = defineProps({
-    name: String
+	name: String
 });
 
 const listItems = ref(null);
 const toggleHideList = () => {
-    listItems.value.classList.toggle('hide');
+	listItems.value.classList.toggle('hide');
 };
 
 const nbItems = ref(4);
 </script>
 
 <template>
-    <div class="list__container">
-        <header class="list__header">
-            <h2 class="list__name" @click="toggleHideList">{{ props.name }}</h2>
+	<div class="list__container">
+		<header class="list__header">
+			<h2 class="list__name" @click="toggleHideList">{{ props.name }}</h2>
 
-            <p>{{ nbItems }} items</p>
+			<p>{{ nbItems }} items</p>
 
-            <div class="list__header__actions">
-                <button class="list__header__actions__button list__header__actions--add">
-                    Add
-                </button>
+			<div class="list__header__actions">
+				<AddItemModal />
 
-                <button class="list__header__actions__button list__header__actions--delete">
-                    Delete
-                </button>
-            </div>
-        </header>
+				<button class="list__header__actions__button list__header__actions--delete">
+					Delete
+				</button>
+			</div>
+		</header>
 
-        <ul class="list__items hide" ref="listItems">
-            <slot name="items">
-                <ListItem></ListItem>
-                <ListItem></ListItem>
-                <ListItem></ListItem>
-                <ListItem></ListItem>
-            </slot>
-        </ul>
-    </div>
+		<ul class="list__items hide" ref="listItems">
+			<slot name="items">
+				<ListItem />
+				<ListItem />
+				<ListItem />
+				<ListItem />
+				<ListItem />
+			</slot>
+		</ul>
+	</div>
 </template>
 
 <style lang="scss" scoped>
 .list {
-    &__container {
-        width: 100%;
-        overflow: hidden;
+	&__container {
+		width: 100%;
+		overflow: hidden;
 
-        border-left: #ffffff19 solid 1px;
-    }
+		border-left: #ffffff19 solid 1px;
+	}
 
-    &__header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+	&__header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
 
-        width: 100%;
-        padding: 20px;
+		width: 100%;
+		padding: 20px;
 
-        &__actions {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 10px;
+		&__actions {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: 10px;
 
-            height: 100%;
+			height: 100%;
 
-            &__button {
-                color: $text-color;
-            }
+			&__button {
+				color: $text-color;
+			}
 
-            &--add:hover {
-                text-decoration: wavy underline #00ff00;
-            }
+			&--delete {
+				transition: text-decoration 0.2s ease-out;
+				text-decoration: wavy underline #ff000000;
 
-            &--delete:hover {
-                text-decoration: wavy underline #ff0000;
-            }
-        }
-    }
+				&:hover {
+					text-decoration: wavy underline #ff0000;
+				}
+			}
+		}
+	}
 
-    &__name {
-        user-select: none;
-        cursor: pointer;
-        text-decoration: underline #ffffff00;
-        transition: all 0.13s ease-in-out;
+	&__name {
+		user-select: none;
+		cursor: pointer;
+		text-decoration: underline #ffffff00;
+		transition: all 0.13s ease-in-out;
 
-        &:hover {
-            text-decoration: underline #ffffff;
-        }
-    }
+		&:hover {
+			text-decoration: underline #ffffff;
+		}
+	}
 
-    &__items {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+	&__items {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 
-        width: 100%;
-        height: auto;
-        max-height: 100vh;
-        padding: 0px 20px;
-        overflow: hidden;
+		width: 100%;
+		height: auto;
+		max-height: 100vh;
+		padding: 0px 20px;
+		overflow: hidden;
 
-        transition: all 0.2s ease-in-out;
+		transition: all 0.2s ease-in-out;
 
-        &.hide {
-            max-height: 0px;
-        }
-    }
+		&.hide {
+			max-height: 0px;
+		}
+	}
 }
 </style>
