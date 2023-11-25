@@ -2,6 +2,7 @@
 import Modal from './ModalComponent.vue';
 import { ref } from 'vue';
 
+const modalInstance = ref(null);
 const handleCancel = () => {
 	modalInstance.value.closeModal();
 };
@@ -9,18 +10,28 @@ const handleCancel = () => {
 const handleSubmit = () => {
 	modalInstance.value.closeModal();
 };
-
-const modalInstance = ref(null);
 </script>
 
 <template>
 	<Modal ref="modalInstance">
-		<template #open-button> Ajouter une liste </template>
+		<template #open-button>
+			<button class="modal__open-button" @click="modalInstance.openModal">
+				Ajouter item
+			</button>
+		</template>
 
-		<template #title> Ajouter une liste </template>
+		<template #title> Ajouter un item </template>
 
 		<template #content>
-			<form></form>
+			<label for="item-name">Nom de l'item</label>
+			<input class="modal__input" id="item-name" type="text" placeholder="Nom de la liste" />
+
+			<label for="item-description">Description de l'item</label>
+			<textarea
+				class="modal__input"
+				id="item-description"
+				placeholder="Description de la liste"
+			></textarea>
 		</template>
 
 		<template #actions>
@@ -31,14 +42,24 @@ const modalInstance = ref(null);
 </template>
 
 <style lang="scss" scoped>
+textarea {
+	resize: vertical;
+}
 .modal {
+	&__open-button {
+		text-decoration: wavy underline #00ff0000;
+		transition: text-decoration 0.2s ease-out;
+
+		&:hover {
+			text-decoration: wavy underline #00ff00;
+		}
+	}
+
 	&__input {
 		padding: 5px 10px;
 
-		border: 1px solid $border-color;
 		border-radius: 5px;
-
-		transition: all 0.2s ease-out;
+		color: $text-color;
 	}
 
 	&__submit-button,
@@ -54,6 +75,10 @@ const modalInstance = ref(null);
 	&__submit-button {
 		background: $text-color;
 		color: $background-color;
+	}
+
+	&__cancel-button:hover {
+		background: $hover-grey;
 	}
 }
 </style>

@@ -14,9 +14,7 @@ onClickOutside(modal, () => closeModal());
 </script>
 
 <template>
-	<button @click="openModal" class="open-modal-button">
-		<slot name="open-button"> </slot>
-	</button>
+	<slot name="open-button"> </slot>
 
 	<Teleport to="#modals">
 		<Transition name="modal">
@@ -54,7 +52,7 @@ onClickOutside(modal, () => closeModal());
 	transition: all 0.2s ease-out;
 
 	&:hover {
-		background: lighten($color: $border-color, $amount: 0.1);
+		background: $hover-grey;
 	}
 }
 
@@ -107,7 +105,7 @@ onClickOutside(modal, () => closeModal());
 		transition: all 0.2s ease-out;
 
 		&:hover {
-			background: lighten($color: $border-color, $amount: 0.1);
+			background: $hover-grey;
 		}
 	}
 
