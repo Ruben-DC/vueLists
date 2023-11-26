@@ -21,9 +21,9 @@ const nbItems = ref(4);
 <template>
 	<div class="list__container">
 		<header class="list__header">
-			<h2 class="list__name" @click="toggleHideList">{{ props.name }}</h2>
+			<h2 @click="toggleHideList" class="list__name">{{ props.name }}</h2>
 
-			<p>{{ nbItems }} items</p>
+			<p @click="toggleHideList" class="list__items-counter">{{ nbItems }} items</p>
 
 			<div class="list__header__actions">
 				<AddItemModal />
@@ -88,6 +88,17 @@ const nbItems = ref(4);
 	}
 
 	&__name {
+		user-select: none;
+		cursor: pointer;
+		text-decoration: underline #ffffff00;
+		transition: all 0.13s ease-in-out;
+
+		&:hover {
+			text-decoration: underline #ffffff;
+		}
+	}
+
+	&__items-counter {
 		user-select: none;
 		cursor: pointer;
 		text-decoration: underline #ffffff00;
