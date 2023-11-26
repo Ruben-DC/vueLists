@@ -5,26 +5,27 @@ import { useListsStore } from '@/stores/listStore';
 
 const listsStore = useListsStore();
 
-const listName = ref('');
-
 const modalInstance = ref(null);
+const listName = ref('');
 const handleCancel = () => {
-	modalInstance.value.closeModal();
 	listName.value = '';
+	modalInstance.value.closeModal();
 };
 
 const handleSubmit = () => {
-	modalInstance.value.closeModal();
+	if (!listName.value) {
+		return;
+	}
+
 	listsStore.addList({ name: listName.value });
 	listName.value = '';
+	modalInstance.value.closeModal();
 };
 
 const listNameInput = ref(null);
-const focusInput = () => listNameInput.value.focus();
-
 watchEffect(() => {
-	if (modalInstance.value.isModalOpen.value) {
-		modalInstance.value.isModalOpen.value ? focusInput() : null;
+	if (listNameInput.value) {
+		listNameInput.value.focus();
 	}
 });
 </script>
@@ -48,6 +49,8 @@ watchEffect(() => {
 				placeholder="Nom de la liste"
 				v-model="listName"
 				ref="listNameInput"
+				@keyup.enter="handleSubmit"
+				@keyup.escape="handleCancel"
 			/>
 		</template>
 

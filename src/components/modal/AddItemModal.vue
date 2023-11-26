@@ -1,15 +1,33 @@
 <script setup>
 import Modal from './ModalComponent.vue';
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 
 const modalInstance = ref(null);
+const itemNameInput = ref(null);
+const itemDescriptionInput = ref(null);
+const itemName = ref('');
+const itemDescription = ref('');
 const handleCancel = () => {
+	itemName.value = '';
+	itemDescription.value = '';
 	modalInstance.value.closeModal();
 };
 
 const handleSubmit = () => {
+	if (!itemNameInput.value) {
+		return;
+	}
+
+	itemName.value = '';
+	itemDescription.value = '';
 	modalInstance.value.closeModal();
 };
+
+watchEffect(() => {
+	if (itemNameInput.value) {
+		itemNameInput.value.focus();
+	}
+});
 </script>
 
 <template>
@@ -24,13 +42,26 @@ const handleSubmit = () => {
 
 		<template #content>
 			<label for="item-name">Nom de l'item</label>
-			<input class="modal__input" id="item-name" type="text" placeholder="Nom de la liste" />
+			<input
+				class="modal__input"
+				id="item-name"
+				type="text"
+				placeholder="Nom de la liste"
+				@keyup.enter="handleSubmit"
+				@keyup.escape="handleCancel"
+				v-model="itemName"
+				ref="itemNameInput"
+			/>
 
 			<label for="item-description">Description de l'item</label>
 			<textarea
 				class="modal__input"
 				id="item-description"
 				placeholder="Description de la liste"
+				@keyup.enter="handleSubmit"
+				@keyup.escape="handleCancel"
+				v-model="itemDescription"
+				ref="itemDescriptionInput"
 			></textarea>
 		</template>
 
@@ -44,6 +75,8 @@ const handleSubmit = () => {
 <style lang="scss" scoped>
 textarea {
 	resize: vertical;
+	height: 3rem;
+	max-height: 8rem;
 }
 .modal {
 	&__open-button {
@@ -57,6 +90,7 @@ textarea {
 
 	&__input {
 		padding: 5px 10px;
+		line-height: 1rem;
 
 		border-radius: 5px;
 		color: $text-color;
