@@ -4,7 +4,7 @@ import AddListModal from '@/components/modal/AddListModal.vue';
 import { useListsStore } from '@/stores/listStore';
 
 const listsStore = useListsStore();
-const lists = listsStore.getLists;
+const lists = listsStore.lists;
 </script>
 
 <template>
@@ -12,7 +12,13 @@ const lists = listsStore.getLists;
 		<AddListModal />
 
 		<div class="lists">
-			<List v-for="list in lists" :key="list.id" :name="list.name" />
+			<List
+				v-for="list in lists"
+				:key="list.id"
+				:name="list.name"
+				:description="list.description"
+				:listId="list.id"
+			/>
 		</div>
 	</main>
 </template>
@@ -27,7 +33,7 @@ const lists = listsStore.getLists;
 	max-width: 800px;
 	width: 100%;
 
-	padding: 0 20px;
+	padding: 0 20px 70px 20px;
 }
 
 .lists {
