@@ -1,15 +1,19 @@
 <script setup>
 import Modal from './ModalComponent.vue';
 import { ref, watchEffect } from 'vue';
+import { useListsStore } from '@/stores/listStore';
+
+const props = defineProps({
+	listId: Number
+});
+
+const listsStore = useListsStore();
 
 const modalInstance = ref(null);
 const itemNameInput = ref(null);
-const itemDescriptionInput = ref(null);
 const itemName = ref('');
-const itemDescription = ref('');
 const handleCancel = () => {
 	itemName.value = '';
-	itemDescription.value = '';
 	modalInstance.value.closeModal();
 };
 
@@ -18,8 +22,13 @@ const handleSubmit = () => {
 		return;
 	}
 
+	listsStore.addItemToList(props.listId, {
+		name: itemName.value.trim(),
+		date: Date.now(),
+		id: Date.now()
+	});
+
 	itemName.value = '';
-	itemDescription.value = '';
 	modalInstance.value.closeModal();
 };
 
@@ -46,23 +55,12 @@ watchEffect(() => {
 				class="modal__input"
 				id="item-name"
 				type="text"
-				placeholder="Nom de la liste"
+				placeholder="Nom de l'item"
 				@keyup.enter="handleSubmit"
 				@keyup.escape="handleCancel"
 				v-model="itemName"
 				ref="itemNameInput"
 			/>
-
-			<label for="item-description">Description de l'item</label>
-			<textarea
-				class="modal__input"
-				id="item-description"
-				placeholder="Description de la liste"
-				@keyup.enter="handleSubmit"
-				@keyup.escape="handleCancel"
-				v-model="itemDescription"
-				ref="itemDescriptionInput"
-			></textarea>
 		</template>
 
 		<template #actions>
@@ -73,13 +71,9 @@ watchEffect(() => {
 </template>
 
 <style lang="scss" scoped>
-textarea {
-	resize: vertical;
-	height: 3rem;
-	max-height: 8rem;
-}
 .modal {
 	&__open-button {
+		text-wrap: nowrap;
 		text-decoration: wavy underline #00ff0000;
 		transition: text-decoration 0.2s ease-out;
 

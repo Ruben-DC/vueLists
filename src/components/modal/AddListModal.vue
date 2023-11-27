@@ -7,8 +7,10 @@ const listsStore = useListsStore();
 
 const modalInstance = ref(null);
 const listName = ref('');
+const listDescription = ref('');
 const handleCancel = () => {
 	listName.value = '';
+	listDescription.value = '';
 	modalInstance.value.closeModal();
 };
 
@@ -17,8 +19,14 @@ const handleSubmit = () => {
 		return;
 	}
 
-	listsStore.addList({ name: listName.value });
+	listsStore.addList({
+		name: listName.value.trim(),
+		description: listDescription.value.trim(),
+		items: [],
+		id: Date.now()
+	});
 	listName.value = '';
+	listDescription.value = '';
 	modalInstance.value.closeModal();
 };
 
@@ -52,6 +60,17 @@ watchEffect(() => {
 				@keyup.enter="handleSubmit"
 				@keyup.escape="handleCancel"
 			/>
+
+			<label for="list-description">Description de la liste</label>
+			<textarea
+				class="modal__input"
+				id="list-description"
+				placeholder="Description de la liste"
+				@keyup.enter="handleSubmit"
+				@keyup.escape="handleCancel"
+				v-model="listDescription"
+				ref="listDescriptionInput"
+			></textarea>
 		</template>
 
 		<template #actions>
@@ -62,6 +81,11 @@ watchEffect(() => {
 </template>
 
 <style lang="scss" scoped>
+textarea {
+	resize: vertical;
+	height: 3rem;
+	max-height: 8rem;
+}
 .modal {
 	&__open-button {
 		padding: 5px 10px;
@@ -79,6 +103,7 @@ watchEffect(() => {
 
 	&__input {
 		padding: 5px 10px;
+		line-height: 1rem;
 
 		border-radius: 5px;
 		color: $text-color;
