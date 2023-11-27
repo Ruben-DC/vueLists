@@ -1,32 +1,42 @@
 <script setup>
 import ListItem from './ListItem.vue';
 import AddItemModal from './modal/AddItemModal.vue';
-import { ref } from 'vue';
-// import { useListsStore } from '../stores/listStore';
+import { ref, watchEffect } from 'vue';
 
-// const listsStore = useListsStore();
+import { useListsStore } from '../stores/listStore';
 
 const props = defineProps({
-	name: String
+	name: String,
+	description: String,
+	listId: Number
 });
 
-const listItems = ref(null);
-const toggleHideList = () => {
-	listItems.value.classList.toggle('hide');
-};
+const listsStore = useListsStore();
+const items = listsStore.getItemsByListId(props.listId);
+const itemsCount = ref(listsStore.getNumberOfItemsByListId(props.listId));
 
-const nbItems = ref(4);
+watchEffect(() => {
+	itemsCount.value = listsStore.getNumberOfItemsByListId(props.listId);
+});
+
+const itemsList = ref(null);
+const toggleList = () => {
+	itemsList.value.classList.toggle('hide');
+};
 </script>
 
 <template>
 	<div class="list__container">
 		<header class="list__header">
-			<h2 @click="toggleHideList" class="list__name">{{ props.name }}</h2>
+			<div @click="toggleList" class="list__infos">
+				<h2 class="list__name">{{ props.name }}</h2>
 
-			<p @click="toggleHideList" class="list__items-counter">{{ nbItems }} items</p>
+				<p class="list__items-counter">{{ itemsCount }} items</p>
+				<p class="list__description">{{ props.description }}</p>
+			</div>
 
 			<div class="list__header__actions">
-				<AddItemModal />
+				<AddItemModal :listId="props.listId" />
 
 				<button class="list__header__actions__button list__header__actions--delete">
 					Delete
@@ -34,13 +44,9 @@ const nbItems = ref(4);
 			</div>
 		</header>
 
-		<ul class="list__items hide" ref="listItems">
+		<ul class="list__items hide" ref="itemsList">
 			<slot name="items">
-				<ListItem />
-				<ListItem />
-				<ListItem />
-				<ListItem />
-				<ListItem />
+				<ListItem v-for="item in items" :key="item.id" />
 			</slot>
 		</ul>
 	</div>
@@ -60,6 +66,7 @@ const nbItems = ref(4);
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
+		// gap: 40px;
 
 		width: 100%;
 		padding: 20px;
@@ -68,12 +75,14 @@ const nbItems = ref(4);
 			display: flex;
 			flex-direction: row;
 			align-items: center;
+			justify-self: flex-end;
 			gap: 10px;
 
 			height: 100%;
 
 			&__button {
 				color: $text-color;
+				text-wrap: nowrap;
 			}
 
 			&--delete {
@@ -87,26 +96,29 @@ const nbItems = ref(4);
 		}
 	}
 
-	&__name {
-		user-select: none;
-		cursor: pointer;
-		text-decoration: underline #ffffff00;
-		transition: all 0.13s ease-in-out;
+	&__infos {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 
-		&:hover {
-			text-decoration: underline #ffffff;
-		}
+		cursor: pointer;
+	}
+
+	&__name {
+		width: 100%;
+		text-wrap: wrap;
+		overflow: hidden;
+
+		user-select: none;
 	}
 
 	&__items-counter {
 		user-select: none;
-		cursor: pointer;
-		text-decoration: underline #ffffff00;
-		transition: all 0.13s ease-in-out;
+	}
 
-		&:hover {
-			text-decoration: underline #ffffff;
-		}
+	&__description {
+		line-height: 1.2;
 	}
 
 	&__items {
