@@ -1,15 +1,26 @@
 <script setup>
+import { ref } from 'vue';
+
 const title = 'My first list';
-const description = 'This is my first list';
 const date = '2021-10-10';
+
+const listItem = ref(null);
+
+const editItem = () => {
+	console.log('Edit item');
+};
+
+const handleDelete = () => {
+	console.log('Delete item');
+	listItem.value.classList.toggle('on-delete');
+};
 </script>
 
 <template>
-	<li class="list__item">
+	<li ref="listItem" class="list__item" draggable>
 		<h3 class="list__item__title">{{ title }}</h3>
 
 		<div class="list__item__content">
-			<p class="list__item__description">{{ description }}</p>
 			<p class="list__item__date">{{ date }}</p>
 		</div>
 
@@ -17,7 +28,7 @@ const date = '2021-10-10';
 			<button class="list__item__button list__item__button--edit" @click="editItem">
 				Edit
 			</button>
-			<button class="list__item__button list__item__button--delete" @click="deleteItem">
+			<button class="list__item__button list__item__button--delete" @click="handleDelete">
 				Delete
 			</button>
 		</div>
@@ -27,6 +38,8 @@ const date = '2021-10-10';
 <style lang="scss" scoped>
 .list {
 	&__item {
+		position: relative;
+
 		display: flex;
 		flex-direction: row;
 		gap: 30px;
@@ -38,7 +51,7 @@ const date = '2021-10-10';
 		border-radius: 10px;
 		padding: 15px 20px;
 
-		cursor: grab;
+		// cursor: grab;
 
 		&__date {
 			font-size: 0.8rem;
@@ -65,6 +78,7 @@ const date = '2021-10-10';
 			}
 
 			&--delete {
+				z-index: 1;
 				text-decoration: wavy underline #ff000000;
 
 				&:hover {
