@@ -23,6 +23,10 @@ const itemsList = ref(null);
 const toggleList = () => {
 	itemsList.value.classList.toggle('hide');
 };
+
+const handleDelete = () => {
+	listsStore.deleteList(props.listId);
+};
 </script>
 
 <template>
@@ -38,7 +42,10 @@ const toggleList = () => {
 			<div class="list__header__actions">
 				<AddItemModal :listId="props.listId" />
 
-				<button class="list__header__actions__button list__header__actions--delete">
+				<button
+					@click="handleDelete"
+					class="list__header__actions__button list__header__actions--delete"
+				>
 					Delete
 				</button>
 			</div>
@@ -46,7 +53,14 @@ const toggleList = () => {
 
 		<ul class="list__items hide" ref="itemsList">
 			<slot name="items">
-				<ListItem v-for="item in items" :key="item.id" />
+				<ListItem
+					v-for="item in items"
+					:name="item.name"
+					:date="item.date"
+					:itemId="item.id"
+					:listId="props.listId"
+					:key="item.id"
+				/>
 			</slot>
 		</ul>
 	</div>
