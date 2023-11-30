@@ -1,27 +1,37 @@
 <script setup>
-import { ref } from 'vue';
+import { useListsStore } from '../stores/listStore';
 
-const title = 'My first list';
-const date = '2021-10-10';
+const props = defineProps({
+	name: String,
+	date: Number,
+	listId: Number,
+	itemId: Number
+});
 
-const listItem = ref(null);
+const formatDate = (date) => {
+	const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+	return new Date(date).toLocaleDateString('fr-FR', options).replace(/\//g, '/');
+};
 
+const uploadDate = formatDate(props.date);
+
+const listsStore = useListsStore();
 const editItem = () => {
 	console.log('Edit item');
 };
 
 const handleDelete = () => {
 	console.log('Delete item');
-	listItem.value.classList.toggle('on-delete');
+	listsStore.deleteItemFromList(props.listId, props.itemId);
 };
 </script>
 
 <template>
 	<li ref="listItem" class="list__item" draggable>
-		<h3 class="list__item__title">{{ title }}</h3>
-
 		<div class="list__item__content">
-			<p class="list__item__date">{{ date }}</p>
+			<h3 class="list__item__title">{{ props.name }}</h3>
+
+			<p class="list__item__date">{{ uploadDate }}</p>
 		</div>
 
 		<div class="list__item__actions">
@@ -53,8 +63,15 @@ const handleDelete = () => {
 
 		// cursor: grab;
 
+		&__content {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			line-height: 1.3;
+		}
+
 		&__date {
-			font-size: 0.8rem;
+			font-size: 0.7rem;
 			font-style: italic;
 		}
 
