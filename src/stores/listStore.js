@@ -10,6 +10,7 @@ import { defineStore } from 'pinia';
  * @property {Object{}} items.item
  * @property {string} items.item.name
  * @property {string} items.item.date
+ * @property {string} items.item.id
  */
 
 export const useListsStore = defineStore('lists', {
@@ -46,6 +47,17 @@ export const useListsStore = defineStore('lists', {
 		addItemToList(listId, item) {
 			const list = this.getListById(listId);
 			list.items.push(item);
+		},
+
+		deleteList(listId) {
+			const listIndex = this.lists.findIndex((list) => list.id === listId);
+			this.lists.splice(listIndex, 1);
+		},
+
+		deleteItemFromList(listId, itemId) {
+			const list = this.getListById(listId);
+			const itemIndex = list.items.findIndex((item) => item.id === itemId);
+			list.items.splice(itemIndex, 1);
 		}
 	}
 });
