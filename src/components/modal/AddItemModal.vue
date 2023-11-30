@@ -18,7 +18,7 @@ const handleCancel = () => {
 };
 
 const handleSubmit = () => {
-	if (!itemNameInput.value) {
+	if (!itemName.value) {
 		return;
 	}
 
