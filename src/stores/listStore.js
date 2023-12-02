@@ -49,6 +49,12 @@ export const useListsStore = defineStore('lists', {
 			list.items.push(item);
 		},
 
+		editItem(listId, itemId, newItem) {
+			const item = this.getItemById(listId, itemId);
+			item.name = newItem.name;
+			item.date = newItem.date;
+		},
+
 		deleteList(listId) {
 			const listIndex = this.lists.findIndex((list) => list.id === listId);
 			this.lists.splice(listIndex, 1);

@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import { useListsStore } from '../stores/listStore';
 
 const props = defineProps({
@@ -8,6 +9,8 @@ const props = defineProps({
 	itemId: Number
 });
 
+const listName = ref(props.name);
+
 const formatDate = (date) => {
 	const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
 	return new Date(date).toLocaleDateString('fr-FR', options).replace(/\//g, '/');
@@ -16,8 +19,11 @@ const formatDate = (date) => {
 const uploadDate = formatDate(props.date);
 
 const listsStore = useListsStore();
+const isEditing = ref(false);
 const editItem = () => {
-	console.log('Edit item');
+	isEditing.value = false;
+
+	listsStore.editItem(props.listId, props.itemId, listName.value);
 };
 
 const handleDelete = () => {
@@ -29,15 +35,35 @@ const handleDelete = () => {
 <template>
 	<li ref="listItem" class="list__item" draggable>
 		<div class="list__item__content">
-			<h3 class="list__item__title">{{ props.name }}</h3>
+			<input
+				type="text"
+				v-if="isEditing"
+				v-model="listName"
+				@keyup.enter="editItem"
+				class="list__item__title__input"
+			/>
+			<h3 v-else class="list__item__title">{{ listName }}</h3>
 
 			<p class="list__item__date">{{ uploadDate }}</p>
 		</div>
 
 		<div class="list__item__actions">
-			<button class="list__item__button list__item__button--edit" @click="editItem">
-				Edit
+			<button
+				v-if="isEditing"
+				@click="editItem"
+				class="list__item__button list__item__button--edit"
+			>
+				Valider
 			</button>
+
+			<button
+				v-else
+				@click="isEditing = true"
+				class="list__item__button list__item__button--edit"
+			>
+				Editer
+			</button>
+
 			<button class="list__item__button list__item__button--delete" @click="handleDelete">
 				Delete
 			</button>
