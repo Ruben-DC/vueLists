@@ -27,7 +27,6 @@ const editItem = () => {
 };
 
 const handleDelete = () => {
-	console.log('Delete item');
 	listsStore.deleteItemFromList(props.listId, props.itemId);
 };
 </script>
