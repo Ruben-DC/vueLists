@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 /**
  * @property {Object} list
@@ -13,63 +14,63 @@ import { defineStore } from 'pinia';
  * @property {string} items.item.id
  */
 
-export const useListsStore = defineStore('lists', {
-	state: () => ({
-		lists: []
-	}),
+export const useListsStore = defineStore('lists', () => {
+	const lists = ref([]);
 
-	getters: {
-		getListById: (state) => (id) => {
-			return state.lists.find((list) => list.id === id);
-		},
+	const getListById = (id) => {
+		return lists.value.find((list) => list.id === id);
+	};
 
-		getItemById: (state) => (listId, itemId) => {
-			const list = state.getListById(listId);
-			return list.items.find((item) => item.id === itemId);
-		},
+	const getItemsByListId = (listId) => {
+		const list = getListById(listId);
+		return list.items;
+	};
 
-		getItemsByListId: (state) => (listId) => {
-			const list = state.getListById(listId);
-			return list.items;
-		},
+	const getNumberOfItemsByListId = (listId) => {
+		const list = getListById(listId);
+		return list.items.length;
+	};
 
-		getNumberOfItemsByListId: (state) => (listId) => {
-			const list = state.getListById(listId);
-			return list.items.length;
+	const addList = (list) => {
+		lists.value.push(list);
+	};
+
+	const addItemToList = (listId, item) => {
+		const list = getListById(listId);
+		list.items.push(item);
+	};
+
+	const editItemInList = (listId, itemId, newItemName) => {
+		const list = getListById(listId);
+		const itemIndex = list.items.findIndex((item) => item.id === itemId);
+
+		if (itemIndex !== -1) {
+			list.items[itemIndex].name = newItemName;
+			list.items[itemIndex].date = Date.now();
+		} else {
+			console.error(`Item with id ${itemId} not found in list ${listId}`);
 		}
-	},
+	};
 
-	actions: {
-		addList(list) {
-			this.lists.push(list);
-		},
+	const deleteList = (listId) => {
+		const listIndex = lists.value.findIndex((list) => list.id === listId);
+		this.lists.splice(listIndex, 1);
+	};
 
-		addItemToList(listId, item) {
-			const list = this.getListById(listId);
-			list.items.push(item);
-		},
+	const deleteItemFromList = (listId, itemId) => {
+		const list = getListById(listId);
+		const itemIndex = list.items.findIndex((item) => item.id === itemId);
+		list.items.splice(itemIndex, 1);
+	};
 
-		editItemInList(listId, itemId, newItemName) {
-			const list = this.getListById(listId);
-			const itemIndex = list.items.findIndex((item) => item.id === itemId);
-
-			if (itemIndex !== -1) {
-				list.items[itemIndex].name = newItemName;
-				list.items[itemIndex].date = Date.now();
-			} else {
-				console.error(`Item with id ${itemId} not found in list ${listId}`);
-			}
-		},
-
-		deleteList(listId) {
-			const listIndex = this.lists.findIndex((list) => list.id === listId);
-			this.lists.splice(listIndex, 1);
-		},
-
-		deleteItemFromList(listId, itemId) {
-			const list = this.getListById(listId);
-			const itemIndex = list.items.findIndex((item) => item.id === itemId);
-			list.items.splice(itemIndex, 1);
-		}
-	}
+	return {
+		lists,
+		getItemsByListId,
+		getNumberOfItemsByListId,
+		addList,
+		addItemToList,
+		editItemInList,
+		deleteList,
+		deleteItemFromList
+	};
 });
