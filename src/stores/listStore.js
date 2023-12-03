@@ -54,7 +54,7 @@ export const useListsStore = defineStore('lists', () => {
 
 	const deleteList = (listId) => {
 		const listIndex = lists.value.findIndex((list) => list.id === listId);
-		this.lists.splice(listIndex, 1);
+		lists.value.splice(listIndex, 1);
 	};
 
 	const deleteItemFromList = (listId, itemId) => {
