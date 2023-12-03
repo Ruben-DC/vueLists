@@ -49,10 +49,16 @@ export const useListsStore = defineStore('lists', {
 			list.items.push(item);
 		},
 
-		editItem(listId, itemId, newItem) {
-			const item = this.getItemById(listId, itemId);
-			item.name = newItem.name;
-			item.date = newItem.date;
+		editItemInList(listId, itemId, newItemName) {
+			const list = this.getListById(listId);
+			const itemIndex = list.items.findIndex((item) => item.id === itemId);
+
+			if (itemIndex !== -1) {
+				list.items[itemIndex].name = newItemName;
+				list.items[itemIndex].date = Date.now();
+			} else {
+				console.error(`Item with id ${itemId} not found in list ${listId}`);
+			}
 		},
 
 		deleteList(listId) {

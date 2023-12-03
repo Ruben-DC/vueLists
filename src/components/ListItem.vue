@@ -9,7 +9,7 @@ const props = defineProps({
 	itemId: Number
 });
 
-const listName = ref(props.name);
+const newName = ref(props.name);
 
 const formatDate = (date) => {
 	const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -23,7 +23,7 @@ const isEditing = ref(false);
 const editItem = () => {
 	isEditing.value = false;
 
-	listsStore.editItem(props.listId, props.itemId, listName.value);
+	listsStore.editItemInList(props.listId, props.itemId, newName.value);
 };
 
 const handleDelete = () => {
@@ -38,11 +38,11 @@ const handleDelete = () => {
 			<input
 				type="text"
 				v-if="isEditing"
-				v-model="listName"
+				v-model="newName"
 				@keyup.enter="editItem"
 				class="list__item__title__input"
 			/>
-			<h3 v-else class="list__item__title">{{ listName }}</h3>
+			<h3 v-else class="list__item__title">{{ props.name }}</h3>
 
 			<p class="list__item__date">{{ uploadDate }}</p>
 		</div>
@@ -64,7 +64,19 @@ const handleDelete = () => {
 				Editer
 			</button>
 
-			<button class="list__item__button list__item__button--delete" @click="handleDelete">
+			<button
+				class="list__item__button list__item__button--delete"
+				v-if="isEditing"
+				@click="isEditing = false"
+			>
+				Annuler
+			</button>
+
+			<button
+				class="list__item__button list__item__button--delete"
+				v-else
+				@click="handleDelete"
+			>
 				Delete
 			</button>
 		</div>
