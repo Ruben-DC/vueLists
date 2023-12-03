@@ -100,6 +100,12 @@ const handleDelete = () => {
 
 		// cursor: grab;
 
+		&__title {
+			&__input {
+				width: 100%;
+			}
+		}
+
 		&__content {
 			display: flex;
 			flex-direction: column;
@@ -116,6 +122,7 @@ const handleDelete = () => {
 			display: flex;
 			flex-direction: row;
 			align-items: center;
+			flex-wrap: wrap;
 			gap: 10px;
 		}
 
