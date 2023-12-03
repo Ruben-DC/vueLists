@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useListsStore } from '../stores/listStore';
 
 const props = defineProps({
@@ -29,6 +29,13 @@ const editItem = () => {
 const handleDelete = () => {
 	listsStore.deleteItemFromList(props.listId, props.itemId);
 };
+
+const editInput = ref(null);
+watchEffect(() => {
+	if (editInput.value) {
+		editInput.value.focus();
+	}
+});
 </script>
 
 <template>
@@ -40,6 +47,7 @@ const handleDelete = () => {
 				v-model="newName"
 				@keyup.enter="editItem"
 				class="list__item__title__input"
+				ref="editInput"
 			/>
 			<h3 v-else class="list__item__title">{{ props.name }}</h3>
 
@@ -66,7 +74,10 @@ const handleDelete = () => {
 			<button
 				class="list__item__button list__item__button--delete"
 				v-if="isEditing"
-				@click="isEditing = false"
+				@click="
+					isEditing = false;
+					newName = props.name;
+				"
 			>
 				Annuler
 			</button>
@@ -96,13 +107,14 @@ const handleDelete = () => {
 		background: $background-color;
 		border: $border-color solid 1px;
 		border-radius: 10px;
-		padding: 15px 20px;
+		padding: 10px 15px;
 
 		// cursor: grab;
 
 		&__title {
 			&__input {
 				width: 100%;
+				border-radius: 3px;
 			}
 		}
 
