@@ -10,6 +10,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vercel/speed-insights": "^1.0.2",
     "@vueuse/core": "^10.6.1",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
