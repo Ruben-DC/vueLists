@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import LoginModal from '../components/modal/LoginModal.vue';
-import RegisterModal from '../components/modal/RegisterModal.vue';
+import SignUpModal from '../components/modal/SignUpModal.vue';
 </script>
 
 <template>
@@ -16,7 +16,7 @@ import RegisterModal from '../components/modal/RegisterModal.vue';
 
 		<ul>
 			<li><LoginModal /></li>
-			<li><RegisterModal /></li>
+			<li><SignUpModal /></li>
 		</ul>
 	</header>
 </template>

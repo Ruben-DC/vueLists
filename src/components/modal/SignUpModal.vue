@@ -1,24 +1,43 @@
 <script setup>
 import Modal from './ModalComponent.vue';
 import { ref, watchEffect } from 'vue';
+import { supabase } from '../../lib/supabaseClient';
 
 const modalInstance = ref(null);
-const usernameInput = ref(null);
-const username = ref('');
+const emailInput = ref(null);
+const email = ref('');
 const password = ref('');
 
 const handleCancel = () => {
-	username.value = '';
+	email.value = '';
 	modalInstance.value.closeModal();
 };
 
 const handleRegister = async () => {
-	console.log(`registering ${username.value}`);
+	console.log(`registering ${email.value}`);
+
+	try {
+		const { data, error } = await supabase.auth.signUp({
+			email: email.value,
+			password: password.value
+		});
+
+		if (error) {
+			throw error;
+		}
+
+		console.log(data);
+
+		email.value = '';
+		modalInstance.value.closeModal();
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 watchEffect(() => {
-	if (usernameInput.value) {
-		usernameInput.value.focus();
+	if (emailInput.value) {
+		emailInput.value.focus();
 	}
 });
 </script>
@@ -32,16 +51,16 @@ watchEffect(() => {
 		<template #title> Inscription </template>
 
 		<template #content>
-			<label for="userName">Nom d'utilisateur</label>
+			<label for="email">Email</label>
 			<input
 				class="modal__input"
-				id="userName"
+				id="email"
 				type="text"
-				placeholder="nom d'utilisateur"
+				placeholder="Email"
 				@keyup.enter="handleRegister"
 				@keyup.escape="handleCancel"
-				v-model="username"
-				ref="usernameInput"
+				v-model="email"
+				ref="emailInput"
 			/>
 
 			<label for="password">Mot de passe</label>
