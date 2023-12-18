@@ -46,7 +46,7 @@ const handleDelete = () => {
 					@click="handleDelete"
 					class="list__header__actions__button list__header__actions--delete"
 				>
-					Delete
+					Supprimer
 				</button>
 			</div>
 		</header>

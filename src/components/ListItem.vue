@@ -68,7 +68,7 @@ watchEffect(() => {
 				@click="isEditing = true"
 				class="list__item__button list__item__button--edit"
 			>
-				Editer
+				Modifier
 			</button>
 
 			<button
@@ -87,7 +87,7 @@ watchEffect(() => {
 				v-else
 				@click="handleDelete"
 			>
-				Delete
+				Supprimer
 			</button>
 		</div>
 	</li>
