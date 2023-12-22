@@ -20,31 +20,33 @@ export const useUserStore = defineStore('user', () => {
 	const authStore = useAuthStore();
 
 	const getUser = async () => {
-		try {
-			const { data, error, status } = await supabase
-				.from('profiles')
-				.select(`*`)
-				.eq('id', authStore.session.id)
-				.single();
+		if (authStore.isLoggedIn()) {
+			try {
+				const { data, error, status } = await supabase
+					.from('profiles')
+					.select(`*`)
+					.eq('id', authStore.session.id)
+					.single();
 
-			if (error && status !== 406) throw error;
+				if (error && status !== 406) throw error;
 
-			if (data) {
-				user.value = data;
-				username.value = data.username;
-				arobase.value = data.arobase;
-				email.value = data.email;
-				website.value = data.website;
-				bio.value = data.bio;
+				if (data) {
+					user.value = data;
+					username.value = data.username;
+					arobase.value = data.arobase;
+					email.value = data.email;
+					website.value = data.website;
+					bio.value = data.bio;
 
-				createdAt.value = data.created_at;
-				lastUpdate.value = data.updated_at;
+					createdAt.value = data.created_at;
+					lastUpdate.value = data.updated_at;
 
-				getAvatarUrl();
-				// getBannerUrl();
+					getAvatarUrl();
+					// getBannerUrl();
+				}
+			} catch (error) {
+				alert(error);
 			}
-		} catch (error) {
-			alert(error);
 		}
 	};
 
