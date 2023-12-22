@@ -1,24 +1,34 @@
 <script setup>
 import Modal from './ModalComponent.vue';
 import { ref, watchEffect } from 'vue';
+import { useAuthStore } from '@/stores/authStore';
+
+const authStore = useAuthStore();
 
 const modalInstance = ref(null);
-const usernameInput = ref(null);
-const username = ref('');
+const emailInput = ref(null);
+const email = ref('');
 const password = ref('');
 
-const handleCancel = () => {
-	username.value = '';
+const clearModal = () => {
+	email.value = '';
+	password.value = '';
 	modalInstance.value.closeModal();
 };
 
-const handleLogin = () => {
-	console.log('login');
+const handleCancel = () => {
+	clearModal();
+};
+
+const logIn = () => {
+	authStore.logIn(email.value, password.value);
+
+	clearModal();
 };
 
 watchEffect(() => {
-	if (usernameInput.value) {
-		usernameInput.value.focus();
+	if (emailInput.value) {
+		emailInput.value.focus();
 	}
 });
 </script>
@@ -29,19 +39,19 @@ watchEffect(() => {
 			<button class="modal__open-button" @click="modalInstance.openModal">Connexion</button>
 		</template>
 
-		<template #title> Se connecter </template>
+		<template #title> Connexion </template>
 
 		<template #content>
-			<label for="userName">Nom d'utilisateur</label>
+			<label for="email">Email</label>
 			<input
 				class="modal__input"
-				id="userName"
+				id="email"
 				type="text"
-				placeholder="nom d'utilisateur"
-				@keyup.enter="handleLogin"
+				placeholder="Email"
+				@keyup.enter="logIn"
 				@keyup.escape="handleCancel"
-				v-model="username"
-				ref="usernameInput"
+				v-model="email"
+				ref="emailInput"
 			/>
 
 			<label for="password">Mot de passe</label>
@@ -50,15 +60,15 @@ watchEffect(() => {
 				id="password"
 				type="password"
 				v-model="password"
-				placeholder="mot de passe"
-				@keyup.enter="handleLogin"
+				placeholder="Mot de passe"
+				@keyup.enter="logIn"
 				@keyup.escape="handleCancel"
 			/>
 		</template>
 
 		<template #actions>
 			<button class="modal__cancel-button" @click="handleCancel">Annuler</button>
-			<button class="modal__submit-button" @click="handleLogin">Connexion</button>
+			<button class="modal__submit-button" @click="logIn">Connexion</button>
 		</template>
 	</Modal>
 </template>

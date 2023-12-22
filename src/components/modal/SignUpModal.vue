@@ -1,38 +1,29 @@
 <script setup>
 import Modal from './ModalComponent.vue';
 import { ref, watchEffect } from 'vue';
-import { supabase } from '../../lib/supabaseClient';
+import { useAuthStore } from '@/stores/authStore';
+
+const authStore = useAuthStore();
 
 const modalInstance = ref(null);
 const emailInput = ref(null);
 const email = ref('');
 const password = ref('');
 
-const handleCancel = () => {
+const clearModal = () => {
 	email.value = '';
+	password.value = '';
 	modalInstance.value.closeModal();
 };
 
-const handleRegister = async () => {
-	console.log(`registering ${email.value}`);
+const handleCancel = () => {
+	clearModal();
+};
 
-	try {
-		const { data, error } = await supabase.auth.signUp({
-			email: email.value,
-			password: password.value
-		});
+const signUp = async () => {
+	authStore.signUp(email.value, password.value);
 
-		if (error) {
-			throw error;
-		}
-
-		console.log(data);
-
-		email.value = '';
-		modalInstance.value.closeModal();
-	} catch (error) {
-		console.log(error);
-	}
+	clearModal();
 };
 
 watchEffect(() => {
@@ -51,33 +42,33 @@ watchEffect(() => {
 		<template #title> Inscription </template>
 
 		<template #content>
-			<label for="email">Email</label>
-			<input
-				class="modal__input"
-				id="email"
-				type="text"
-				placeholder="Email"
-				@keyup.enter="handleRegister"
-				@keyup.escape="handleCancel"
-				v-model="email"
-				ref="emailInput"
-			/>
+			<form @submit.prevent="signUp" @keyup.escape="handleCancel">
+				<label for="email">Email</label>
+				<input
+					@keyup.enter="signUp"
+					v-model="email"
+					id="email"
+					type="text"
+					placeholder="Email"
+					ref="emailInput"
+					class="modal__input"
+				/>
 
-			<label for="password">Mot de passe</label>
-			<input
-				class="modal__input"
-				id="password"
-				type="password"
-				v-model="password"
-				placeholder="mot de passe"
-				@keyup.enter="handleRegister"
-				@keyup.escape="handleCancel"
-			/>
+				<label for="password">Mot de passe</label>
+				<input
+					@keyup.enter="signUp"
+					v-model="password"
+					id="password"
+					type="password"
+					placeholder="Mot de passe"
+					class="modal__input"
+				/>
+			</form>
 		</template>
 
 		<template #actions>
 			<button class="modal__cancel-button" @click="handleCancel">Annuler</button>
-			<button class="modal__submit-button" @click="handleRegister">Créer le compte</button>
+			<button class="modal__submit-button" @click="signup">Créer le compte</button>
 		</template>
 	</Modal>
 </template>
@@ -120,5 +111,13 @@ watchEffect(() => {
 	&__cancel-button:hover {
 		background: $hover-grey;
 	}
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	width: 100%;
 }
 </style>
