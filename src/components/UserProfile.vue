@@ -19,9 +19,9 @@ onClickOutside(profile, () => (isOpen.value = false));
 
 <template>
 	<div class="profile" ref="profile">
-		<img
+		<div
 			v-if="userStore.avatarUrl"
-			:src="userStore.avatarUrl"
+			:style="{ backgroundImage: `url(${userStore.avatarUrl})` }"
 			alt="user avatar"
 			class="profile__avatar"
 			@click="isOpen = !isOpen"
@@ -49,9 +49,13 @@ onClickOutside(profile, () => (isOpen.value = false));
 	gap: 10px;
 
 	&__avatar {
+		background-size: cover;
+		background-position: center;
+
 		aspect-ratio: 1/1;
 		width: 45px;
 		height: 45px;
+
 		border-radius: 7px;
 		border: 1px solid $border-color;
 		object-fit: cover;
@@ -61,7 +65,7 @@ onClickOutside(profile, () => (isOpen.value = false));
 		transition: all 0.2s ease-out;
 
 		&:hover {
-			transform: scale(1.05);
+			border: 4px solid #ffffff35;
 		}
 	}
 
@@ -77,7 +81,7 @@ onClickOutside(profile, () => (isOpen.value = false));
 		width: 250px;
 		padding: 5px;
 
-		background: $background-color;
+		background: $background-color-2;
 		border: 1px solid $border-color;
 		border-radius: 7px;
 
