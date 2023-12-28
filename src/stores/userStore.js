@@ -74,6 +74,29 @@ export const useUserStore = defineStore('user', () => {
 		}
 	};
 
+	const updateUser = async (data) => {
+		try {
+			const updatedData = Object.fromEntries(
+				Object.entries(data).filter(([_, v]) => v != null)
+			);
+
+			const { error } = await supabase
+				.from('profiles')
+				.update(updatedData)
+				.eq('id', authStore.session.id);
+
+			updateStore();
+
+			if (error) throw error;
+		} catch (error) {
+			alert(error.message);
+		}
+	};
+
+	const updateStore = async () => {
+		getUser();
+	};
+
 	return {
 		user,
 		username,
@@ -81,6 +104,7 @@ export const useUserStore = defineStore('user', () => {
 		email,
 		website,
 		bio,
+
 		avatarUrl,
 		bannerUrl,
 		createdAt,
