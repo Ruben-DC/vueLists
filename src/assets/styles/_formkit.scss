@@ -1,0 +1,46 @@
+.formkit {
+	&-form {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+
+		width: 100%;
+	}
+
+	&-wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+
+		width: 100%;
+	}
+
+	&-label {
+		margin-left: 10px;
+	}
+
+	&-input {
+		width: 100%;
+	}
+
+	&-message {
+		color: $red-1;
+	}
+
+	&__textarea {
+		resize: vertical;
+	}
+}
+
+.submit__input {
+	padding: 10px;
+
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+
+	background: $white;
+	color: $black;
+}

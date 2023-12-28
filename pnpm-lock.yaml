@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@formkit/i18n':
+    specifier: ^1.4.0
+    version: 1.4.0
   '@formkit/vue':
     specifier: ^1.4.0
     version: 1.4.0
