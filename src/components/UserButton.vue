@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router';
 import { useAuthStore } from '@/stores/authStore';
 import { useUserStore } from '@/stores/userStore';
 import { onClickOutside } from '@vueuse/core';
+import { Icon } from '@iconify/vue';
 
 const authStore = useAuthStore();
 const signOut = async () => {
@@ -31,9 +32,24 @@ onClickOutside(profile, () => (isOpen.value = false));
 			<p class="arobase">{{ userStore.arobase }}</p>
 
 			<ul class="profile__menu-list" @click="isOpen = !isOpen">
-				<RouterLink to="/profile"><li>Mon profil</li></RouterLink>
-				<RouterLink to="/"><li>Mes listes</li></RouterLink>
-				<li @click="signOut" class="signout">Déconnexion</li>
+				<RouterLink to="/profile">
+					<li>
+						<p>Mon profil</p>
+						<Icon icon="solar:user-linear" />
+					</li>
+				</RouterLink>
+
+				<RouterLink to="/">
+					<li>
+						<p>Mes listes</p>
+						<Icon icon="solar:list-linear" />
+					</li>
+				</RouterLink>
+
+				<li @click="signOut" class="signout">
+					<p>Déconnexion</p>
+					<Icon icon="solar:logout-2-linear" />
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -98,6 +114,11 @@ onClickOutside(profile, () => (isOpen.value = false));
 			flex-direction: column;
 
 			li {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				flex-wrap: none;
+
 				font-size: 0.9rem;
 				padding: 10px 15px;
 				border-radius: 3px;
