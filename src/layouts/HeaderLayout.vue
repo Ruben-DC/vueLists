@@ -3,7 +3,7 @@
 import { RouterLink } from 'vue-router';
 import LoginModal from '../components/modal/LoginModal.vue';
 import SignUpModal from '../components/modal/SignUpModal.vue';
-import UserProfile from '../components/UserProfile.vue';
+import UserButton from '../components/UserButton.vue';
 import { useAuthStore } from '@/stores/authStore';
 import { useUserStore } from '@/stores/userStore';
 
@@ -17,7 +17,7 @@ const userStore = useUserStore();
 
 		<ul v-if="authStore.isLoggedIn()">
 			<li>
-				<UserProfile class="user" />
+				<UserButton class="user" />
 			</li>
 		</ul>
 
