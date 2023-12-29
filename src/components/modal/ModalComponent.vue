@@ -1,7 +1,7 @@
 <script setup>
-import CrossIcon from '@/components/icons/CrossIcon.vue';
 import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
+import { Icon } from '@iconify/vue';
 
 const isModalOpen = ref(false);
 const modal = ref(null);
@@ -26,7 +26,7 @@ onClickOutside(modal, () => closeModal());
 						</h2>
 
 						<button class="modal__close-button" @click="closeModal">
-							<CrossIcon />
+							<Icon icon="ic:round-close" />
 						</button>
 					</header>
 
