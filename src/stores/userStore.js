@@ -111,6 +111,7 @@ export const useUserStore = defineStore('user', () => {
 		lastUpdate,
 
 		getUser,
-		getBannerUrl
+		getBannerUrl,
+		updateUser
 	};
 });
