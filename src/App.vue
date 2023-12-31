@@ -1,6 +1,7 @@
 <script setup>
 import { RouterView } from 'vue-router';
 import Header from '@/layouts/HeaderLayout.vue';
+import ToastsList from '@/components/ToastsList.vue';
 import { SpeedInsights } from '@vercel/speed-insights/vue';
 </script>
 
@@ -12,6 +13,8 @@ import { SpeedInsights } from '@vercel/speed-insights/vue';
 	</main>
 
 	<SpeedInsights />
+
+	<ToastsList />
 </template>
 
 <style lang="scss">
