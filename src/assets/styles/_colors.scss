@@ -1,17 +1,27 @@
 $black: #000000;
 $black-2: #070707;
 $white: #e9e9e9;
-$grey: #ffffff19;
+$gray: #ffffff19;
 $red-1: #ff0000;
 $red-2: #ff000029;
+$orange-1: #ff7f00;
+$orange-2: #914e0c;
+$green-1: #0bb20b;
+$green-2: #2c6e2c;
 
 $background-color: $black;
 $background-color-2: $black-2;
 
 $text-color: $white;
-$border-color: $grey;
+$border-color: $gray;
 
-$warning-background: $red-2;
-$warning-text: $red-1;
+$danger-background: $red-2;
+$danger-text: $red-1;
+
+$warning-background: $orange-2;
+$warning-text: $orange-1;
+
+$success-background: $green-2;
+$success-text: $green-1;
 
 $hover-grey: #ffffff1c;
