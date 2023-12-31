@@ -3,9 +3,17 @@ import { ref, watch } from 'vue';
 import { useUserStore } from '@/stores/userStore';
 
 const userStore = useUserStore();
+const isLoading = ref(false);
 
 const updateUser = async (data) => {
-	userStore.updateUser(data);
+	try {
+		isLoading.value = true;
+		await userStore.updateUser(data);
+		isLoading.value = false;
+	} catch (error) {
+		console.log(error);
+		isLoading.value = false;
+	}
 };
 
 const placeholders = ref({
@@ -21,7 +29,7 @@ watch(
 		placeholders.value.username = newVal.username || "nom d'utilisateur";
 		placeholders.value.arobase = newVal.arobase || 'arobase';
 		placeholders.value.website = newVal.website || 'site web';
-		placeholders.value.bio = newVal.bio || 'bio';
+		placeholders.value.bio = newVal.bio || 'Dites-nous en plus sur vous';
 	},
 
 	{ immediate: true }
@@ -46,7 +54,7 @@ watch(
 				name="arobase"
 				label="Votre arobase"
 				:placeholder="placeholders.arobase"
-				validation="starts_with:@"
+				validation="alpha:latin|starts_with:@"
 				validation-visibility="live"
 			/>
 
@@ -65,7 +73,17 @@ watch(
 				:placeholder="placeholders.bio"
 			/>
 
-			<FormKit type="submit" name="submit" label="enregistrer" input-class="submit__input" />
+			<FormKit
+				type="submit"
+				name="submit"
+				:label="isLoading ? '...' : 'Enregistrer'"
+				:input-class="
+					isLoading
+						? 'submit__input submit__input--disabled'
+						: 'submit__input submit__input--enabled'
+				"
+				:disabled="isLoading"
+			/>
 		</FormKit>
 	</main>
 </template>
@@ -99,36 +117,17 @@ watch(
 	}
 }
 
-// .avatar {
-// 	&__outer {
-// 		aspect-ratio: 1;
-// 		width: 150px;
-// 		height: 150px;
-// 	}
+// .toast-enter-active,
+// .toast-leave-active {
+// 	transition: all 3s;
+// }
 
-// 	&__wrapper {
-// 		width: 100%;
-// 		height: 150px;
-// 	}
-
-// 	&__inner {
-// 		width: 100%;
-// 		height: 100%;
-// 	}
-
-// 	&__input {
-// 		width: 100%;
-// 		height: 100%;
-// 	}
-
-// 	&__preview {
-// 		flex: 0 0 150px;
-
-// 		width: 150px;
-// 		height: 150px;
-// 		background-size: cover;
-// 		background-position: center;
-// 		border-radius: 10px;
-// 	}
+// // .toast-enter-from {
+// // 	opacity: 0;
+// // 	transform: translateY(-400px);
+// // }
+// .toast-leave-to {
+// 	opacity: 0;
+// 	transform: translateX(400px);
 // }
 </style>
