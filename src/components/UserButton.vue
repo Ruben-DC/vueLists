@@ -132,10 +132,10 @@ onClickOutside(profile, () => (isOpen.value = false));
 				}
 
 				&.signout {
-					color: $warning-text;
+					color: $danger-text;
 
 					&:hover {
-						background: $warning-background;
+						background: $danger-background;
 					}
 				}
 			}
