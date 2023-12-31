@@ -34,6 +34,11 @@ watch(
 
 	{ immediate: true }
 );
+
+const greatArobase = (node) => {
+	const regex = /^@[A-Za-z0-9]+$/;
+	return regex.test(node.value);
+};
 </script>
 
 <template>
@@ -54,7 +59,8 @@ watch(
 				name="arobase"
 				label="Votre arobase"
 				:placeholder="placeholders.arobase"
-				validation="alpha:latin|starts_with:@"
+				:validation-rules="{ greatArobase }"
+				validation="greatArobase"
 				validation-visibility="live"
 			/>
 
