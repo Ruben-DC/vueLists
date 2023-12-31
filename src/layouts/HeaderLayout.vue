@@ -5,10 +5,8 @@ import LoginModal from '../components/modal/LoginModal.vue';
 import SignUpModal from '../components/modal/SignUpModal.vue';
 import UserButton from '../components/UserButton.vue';
 import { useAuthStore } from '@/stores/authStore';
-import { useUserStore } from '@/stores/userStore';
 
 const authStore = useAuthStore();
-const userStore = useUserStore();
 </script>
 
 <template>
