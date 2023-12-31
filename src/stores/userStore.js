@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { supabase } from '@/utils/supabase';
 import { useAuthStore } from './authStore';
+import { useToastStore } from './toastStore';
 
 export const useUserStore = defineStore('user', () => {
 	const user = ref(null);
@@ -18,6 +19,7 @@ export const useUserStore = defineStore('user', () => {
 	const lastUpdate = ref(null);
 
 	const authStore = useAuthStore();
+	const toastStore = useToastStore();
 
 	const getUser = async () => {
 		if (authStore.isLoggedIn()) {
@@ -42,10 +44,10 @@ export const useUserStore = defineStore('user', () => {
 					lastUpdate.value = data.updated_at;
 
 					getAvatarUrl();
-					// getBannerUrl();
+					getBannerUrl();
 				}
 			} catch (error) {
-				alert(error);
+				console.error('Error getting user: ', error.message);
 			}
 		}
 	};
@@ -87,14 +89,17 @@ export const useUserStore = defineStore('user', () => {
 
 			updateStore();
 
-			if (error) throw error;
+			if (error) {
+				throw error;
+			}
+			toastStore.addToast('Mise à jour effectuée !', 'success');
 		} catch (error) {
-			alert(error.message);
+			toastStore.addToast(error.message, 'error');
 		}
 	};
 
 	const updateStore = async () => {
-		getUser();
+		await getUser();
 	};
 
 	return {
