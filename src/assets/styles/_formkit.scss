@@ -41,6 +41,46 @@
 	-ms-border-radius: 10px;
 	-o-border-radius: 10px;
 
-	background: $white;
-	color: $black;
+	&--enabled {
+		background: $white;
+		color: $black;
+	}
+
+	&--disabled {
+		background: $gray;
+		color: $text-color;
+	}
 }
+
+// .avatar {
+// 	&__outer {
+// 		aspect-ratio: 1;
+// 		width: 150px;
+// 		height: 150px;
+// 	}
+
+// 	&__wrapper {
+// 		width: 100%;
+// 		height: 150px;
+// 	}
+
+// 	&__inner {
+// 		width: 100%;
+// 		height: 100%;
+// 	}
+
+// 	&__input {
+// 		width: 100%;
+// 		height: 100%;
+// 	}
+
+// 	&__preview {
+// 		flex: 0 0 150px;
+
+// 		width: 150px;
+// 		height: 150px;
+// 		background-size: cover;
+// 		background-position: center;
+// 		border-radius: 10px;
+// 	}
+// }
