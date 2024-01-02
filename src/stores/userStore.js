@@ -41,7 +41,7 @@ export const useUserStore = defineStore('user', () => {
 					bio.value = data.bio;
 
 					createdAt.value = data.created_at;
-					lastUpdate.value = data.updated_at;
+					lastUpdate.value = data.last_update;
 
 					getAvatarUrl();
 					getBannerUrl();
@@ -67,7 +67,7 @@ export const useUserStore = defineStore('user', () => {
 	const getBannerUrl = async () => {
 		try {
 			const { data, error } = await supabase.storage
-				.from('avatars')
+				.from('banners')
 				.download(user.value.profile_banner_url);
 			if (error) throw error;
 			bannerUrl.value = URL.createObjectURL(data);
@@ -94,6 +94,43 @@ export const useUserStore = defineStore('user', () => {
 			}
 			toastStore.addToast('Mise à jour effectuée !', 'success');
 		} catch (error) {
+			console.error(error);
+			toastStore.addToast(error.message, 'error');
+		}
+	};
+
+	const uploadAvatar = async (file) => {
+		try {
+			const fileExt = file.name.split('.').pop();
+			const filePath = `${Math.random()}.${fileExt}`;
+
+			const { error: uploadError } = await supabase.storage
+				.from('avatars')
+				.upload(filePath, file);
+
+			if (uploadError) throw uploadError;
+			toastStore.addToast('Mise à jour effectuée !', 'success');
+			getAvatarUrl();
+		} catch (error) {
+			console.error(error);
+			toastStore.addToast(error.message, 'error');
+		}
+	};
+
+	const uploadBanner = async (file) => {
+		try {
+			const fileExt = file.name.split('.').pop();
+			const filePath = `${Math.random()}.${fileExt}`;
+
+			const { error: uploadError } = await supabase.storage
+				.from('banners')
+				.upload(filePath, file);
+
+			if (uploadError) throw uploadError;
+			toastStore.addToast('Mise à jour effectuée !', 'success');
+			getBannerUrl();
+		} catch (error) {
+			console.error(error);
 			toastStore.addToast(error.message, 'error');
 		}
 	};
@@ -109,7 +146,6 @@ export const useUserStore = defineStore('user', () => {
 		email,
 		website,
 		bio,
-
 		avatarUrl,
 		bannerUrl,
 		createdAt,
@@ -117,6 +153,8 @@ export const useUserStore = defineStore('user', () => {
 
 		getUser,
 		getBannerUrl,
-		updateUser
+		updateUser,
+		uploadAvatar,
+		uploadBanner
 	};
 });
