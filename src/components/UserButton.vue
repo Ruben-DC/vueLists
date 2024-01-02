@@ -57,6 +57,7 @@ onClickOutside(profile, () => (isOpen.value = false));
 
 <style lang="scss" scoped>
 .profile {
+	z-index: 100;
 	position: relative;
 	display: flex;
 	flex-direction: column;
