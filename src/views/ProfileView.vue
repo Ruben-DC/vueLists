@@ -1,6 +1,8 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useUserStore } from '@/stores/userStore';
+import Avatar from '@/components/AvatarWidget.vue';
+import Banner from '@/components/BannerWidget.vue';
 
 const userStore = useUserStore();
 const isLoading = ref(false);
@@ -18,7 +20,7 @@ const updateUser = async (data) => {
 
 const placeholders = ref({
 	username: "nom d'utilisateur",
-	arobase: 'arobase',
+	arobase: '@arobase',
 	website: 'site web',
 	bio: 'bio'
 });
@@ -43,7 +45,13 @@ const greatArobase = (node) => {
 
 <template>
 	<main class="view">
-		<h1>Mon profil</h1>
+		<header class="profile">
+			<Banner class="profile__banner" />
+
+			<Avatar class="profile__avatar" />
+		</header>
+
+		<h1 class="title">{{ userStore?.username || userStore.arobase }}</h1>
 
 		<FormKit type="form" :actions="false" @submit="updateUser">
 			<FormKit
@@ -99,13 +107,37 @@ const greatArobase = (node) => {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	gap: 50px;
+	align-items: flex-start;
+	gap: 30px;
 
 	max-width: 800px;
 	width: 100%;
 	height: auto;
 
 	padding: 0 20px 70px 20px;
+}
+
+.profile {
+	position: relative;
+
+	display: flex;
+	flex-direction: column;
+
+	aspect-ratio: 600/200;
+	width: 100%;
+	margin-bottom: 10%;
+
+	&__banner {
+		position: absolute;
+	}
+
+	&__avatar {
+		position: relative;
+		top: 65%;
+		left: 20px;
+
+		width: 20%;
+	}
 }
 
 .form-section {
@@ -122,18 +154,4 @@ const greatArobase = (node) => {
 		width: 100%;
 	}
 }
-
-// .toast-enter-active,
-// .toast-leave-active {
-// 	transition: all 3s;
-// }
-
-// // .toast-enter-from {
-// // 	opacity: 0;
-// // 	transform: translateY(-400px);
-// // }
-// .toast-leave-to {
-// 	opacity: 0;
-// 	transform: translateX(400px);
-// }
 </style>
