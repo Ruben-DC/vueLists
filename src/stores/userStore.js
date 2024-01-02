@@ -79,6 +79,7 @@ export const useUserStore = defineStore('user', () => {
 	const updateUser = async (data) => {
 		try {
 			const updatedData = Object.fromEntries(
+				// eslint-disable-next-line no-unused-vars
 				Object.entries(data).filter(([_, v]) => v != null)
 			);
 
