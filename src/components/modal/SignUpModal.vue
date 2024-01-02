@@ -68,7 +68,7 @@ watchEffect(() => {
 
 		<template #actions>
 			<button class="modal__cancel-button" @click="handleCancel">Annuler</button>
-			<button class="modal__submit-button" @click="signup">Créer le compte</button>
+			<button class="modal__submit-button" @click="signUp">Créer le compte</button>
 		</template>
 	</Modal>
 </template>
