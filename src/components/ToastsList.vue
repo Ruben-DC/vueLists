@@ -22,6 +22,7 @@ const toastStore = useToastStore();
 
 <style lang="scss" scoped>
 .toasts-list {
+	z-index: 100000;
 	position: fixed;
 	bottom: 20px;
 	right: 20px;
@@ -30,7 +31,8 @@ const toastStore = useToastStore();
 	flex-direction: column;
 	gap: 20px;
 
-	width: 388px;
+	max-width: 388px;
+	width: 100%;
 
 	list-style: none;
 

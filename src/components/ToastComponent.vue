@@ -1,5 +1,5 @@
 <script setup>
-import { watch, onMounted, onUnmounted, ref } from 'vue';
+import { watch, onMounted, onUnmounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import { useElementHover } from '@vueuse/core';
 
