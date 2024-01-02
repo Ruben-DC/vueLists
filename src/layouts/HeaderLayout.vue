@@ -1,5 +1,4 @@
 <script setup>
-// import { ref, watch, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import LoginModal from '../components/modal/LoginModal.vue';
 import SignUpModal from '../components/modal/SignUpModal.vue';
@@ -11,7 +10,7 @@ const authStore = useAuthStore();
 
 <template>
 	<header>
-		<h1><RouterLink to="/">Listes</RouterLink></h1>
+		<RouterLink class="title" to="/"><h1>Listes</h1></RouterLink>
 
 		<ul v-if="authStore.isLoggedIn()">
 			<li>
@@ -35,6 +34,12 @@ header {
 	min-height: 95px;
 	padding: 30px 50px;
 	background: $background-color;
+
+	.title {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
 
 	ul {
 		display: flex;
@@ -73,6 +78,10 @@ header {
 				text-decoration: none;
 			}
 		}
+	}
+
+	@media (max-width: 500px) {
+		padding: 30px 20px;
 	}
 }
 </style>
