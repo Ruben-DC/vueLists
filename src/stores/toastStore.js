@@ -6,6 +6,9 @@ export const useToastStore = defineStore('toast', () => {
 
 	const addToast = (message, type = 'info') => {
 		const id = Date.now();
+		if (message === 'duplicate key value violates unique constraint "profiles_arobase_key"') {
+			message = 'arobase déjà utilisé';
+		}
 		toasts.value.push({ id, message, type });
 
 		console.log(toasts.value);
